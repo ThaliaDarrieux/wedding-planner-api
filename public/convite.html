@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💌 Confirmação de Presença</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        .hero.is-link {
+            background-color: #3e8edc; /* Cor de convite */
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero is-link is-fullheight">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+        <h1 class="title is-1">
+            Você foi convidado! 🥂
+        </h1>
+        <h2 class="subtitle is-3" id="nome-convidado">
+            Convidado(a)
+        </h2>
+        
+        <div class="box is-max-widescreen">
+            <h3 class="title is-4">Confirma sua presença no casamento?</h3>
+            <p class="mb-4">Sua confirmação é muito importante para a organização!</p>
+            
+            <div class="buttons is-centered">
+                <button id="confirmarSim" class="button is-success is-large">Sim, eu vou! 🎉</button>
+                <button id="confirmarNao" class="button is-danger is-large">Não poderei ir 😔</button>
+            </div>
+            
+            <p class="mt-4 is-size-5" id="mensagem-status">Aguardando confirmação...</p>
+        </div>
+        
+    </div>
+  </div>
+</section>
+
+<script>
+    const API_URL = 'http://localhost:3000/api';
+    const params = new URLSearchParams(window.location.search);
+    const convidadoHash = params.get('hash');
+    
+    if (!convidadoHash) {
+        document.getElementById('nome-convidado').textContent = 'Erro: Link Inválido';
+        document.getElementById('mensagem-status').textContent = 'Por favor, use o link fornecido no convite.';
+    } else {
+        // Decodificar o nome (somente para exibir, a autenticação é pelo hash)
+        try {
+            const nomeDecodificado = atob(convidadoHash);
+            document.getElementById('nome-convidado').textContent = nomeDecodificado;
+        } catch (e) {
+            document.getElementById('nome-convidado').textContent = 'Convidado(a)';
+        }
+    }
+    
+    // Função para confirmar presença
+    async function confirmar(confirmacao) {
+        document.getElementById('mensagem-status').textContent = 'Enviando confirmação...';
+        
+        try {
+            const response = await fetch(`${API_URL}/convidado/confirmar-presenca`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ convidadoHash, confirmacao })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('mensagem-status').innerHTML = `<strong class="has-text-success">${data.message}</strong>. Redirecionando para a lista de presentes...`;
+                
+                // Redireciona para a lista de presentes (como solicitado)
+                setTimeout(() => {
+                    window.location.href = data.urlLista; 
+                }, 2000); 
+
+            } else {
+                const errorData = await response.json();
+                document.getElementById('mensagem-status').innerHTML = `<strong class="has-text-danger">Erro (${errorData.status}): ${errorData.message}</strong>`;
+            }
+        } catch (error) {
+             document.getElementById('mensagem-status').innerHTML = `<strong class="has-text-danger">Erro de conexão com a API.</strong>`;
+        }
+    }
+
+    // Eventos de clique
+    document.getElementById('confirmarSim').addEventListener('click', () => confirmar('sim'));
+    document.getElementById('confirmarNao').addEventListener('click', () => confirmar('nao'));
+    
+</script>
+
+</body>
+</html>

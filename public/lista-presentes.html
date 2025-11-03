@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 Lista de Presentes dos Noivos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        .hero.is-warning {
+            background-color: #ffdd57;
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero is-warning is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Lista de Presentes 🎁
+      </h1>
+      <h2 class="subtitle" id="sub-title-convidado">
+        Para a alegria dos noivos!
+      </h2>
+    </div>
+  </div>
+</section>
+
+<div class="container p-4">
+    <p class="mb-4">Olá, <strong id="nome-convidado-presente">Convidado(a)</strong>. Escolha um presente e o valor será convertido em PIX para os noivos.</p>
+
+    <div class="columns is-multiline" id="lista-presentes-container">
+        <p class="column is-full">Carregando lista...</p>
+    </div>
+    
+    <div id="mensagem-pix" class="notification is-success is-hidden mt-5">
+        <button class="delete"></button>
+        <p class="title is-4">Presente 'comprado'!</p>
+        <p id="detalhes-pix"></p>
+    </div>
+
+</div>
+
+<script>
+    const API_URL = 'http://localhost:3000/api';
+    const params = new URLSearchParams(window.location.search);
+    const convidadoHash = params.get('hash');
+    const container = document.getElementById('lista-presentes-container');
+    const nomeConvidadoEl = document.getElementById('nome-convidado-presente');
+    const mensagemPixEl = document.getElementById('mensagem-pix');
+    const detalhesPixEl = document.getElementById('detalhes-pix');
+    
+    if (!convidadoHash) {
+        nomeConvidadoEl.textContent = 'Link Inválido';
+        container.innerHTML = '<p class="column is-full has-text-danger">Link de convidado inválido para acessar a lista.</p>';
+    } else {
+        // Carregar a lista de presentes
+        fetchPresentes(convidadoHash);
+        
+        // Decodificar nome para exibir (melhor seria buscar da API, mas para simplicidade)
+        try {
+            nomeConvidadoEl.textContent = atob(convidadoHash);
+            document.getElementById('sub-title-convidado').textContent = `Seja bem-vindo(a), ${atob(convidadoHash)}`;
+        } catch (e) {}
+    }
+
+    async function fetchPresentes(hash) {
+        try {
+            const response = await fetch(`${API_URL}/convidado/lista-presentes/${hash}`);
+            
+            if (!response.ok) {
+                 const errorData = await response.json();
+                 container.innerHTML = `<p class="column is-full has-text-danger">Erro ao carregar lista (${errorData.status}): ${errorData.message}</p>`;
+                 return;
+            }
+            
+            const data = await response.json();
+            
+            if (data.listaPresentes.length === 0) {
+                 container.innerHTML = '<p class="column is-full has-text-info">Todos os presentes já foram comprados! Obrigado.</p>';
+                 return;
+            }
+            
+            container.innerHTML = data.listaPresentes.map(p => `
+                <div class="column is-one-quarter">
+                    <div class="card">
+                        <div class="card-content">
+                            <p class="title is-4">${p.nome}</p>
+                            <p class="subtitle is-6 has-text-success">R$ ${p.valorPix.toFixed(2)} (PIX)</p>
+                            <button class="button is-success is-small is-fullwidth comprar-btn" data-id="${p.id}">
+                                Presentear!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Adicionar evento de clique para os botões "Presentear!"
+            document.querySelectorAll('.comprar-btn').forEach(button => {
+                button.addEventListener('click', () => comprarPresente(button.dataset.id, button));
+            });
+            
+        } catch (error) {
+             container.innerHTML = '<p class="column is-full has-text-danger">Falha na conexão com a API.</p>';
+        }
+    }
+    
+    async function comprarPresente(presenteId, button) {
+        if (!confirm('Tem certeza que deseja presentear com este item? O valor será convertido em PIX para os noivos.')) {
+            return;
+        }
+        
+        button.classList.add('is-loading');
+
+        try {
+            const response = await fetch(`${API_URL}/convidado/comprar-presente`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ convidadoHash, presenteId: parseInt(presenteId) })
+            });
+
+            button.classList.remove('is-loading');
+
+            if (response.ok) {
+                const data = await response.json();
+                
+                detalhesPixEl.innerHTML = `${data.message}<br><strong>${data.detalhesPix}</strong>`;
+                mensagemPixEl.classList.remove('is-hidden');
+                
+                // Recarrega a lista para remover o item 'comprado'
+                setTimeout(() => fetchPresentes(convidadoHash), 3000); 
+
+            } else {
+                const errorData = await response.json();
+                alert(`Erro: ${errorData.message}`);
+            }
+        } catch (error) {
+             button.classList.remove('is-loading');
+             alert('Erro de conexão ao tentar comprar presente.');
+        }
+    }
+
+    // Fechar notificação de PIX
+    document.querySelector('#mensagem-pix .delete').addEventListener('click', () => {
+        mensagemPixEl.classList.add('is-hidden');
+    });
+
+</script>
+
+</body>
+</html>

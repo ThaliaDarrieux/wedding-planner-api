@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👰💍 Wedding Planner Noiva</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        .hero.is-primary {
+            background-color: #ff3860; /* Cor de Casamento/Amor */
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero is-primary is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        ✨ Seu Wedding Planner 💖
+      </h1>
+      <h2 class="subtitle">
+        Painel de Controle da Noiva
+      </h2>
+    </div>
+  </div>
+</section>
+
+<div class="container p-4">
+    <div class="columns is-multiline">
+        
+        <div class="column is-one-third">
+            <div class="card">
+                <header class="card-header has-background-info">
+                    <p class="card-header-title has-text-white">
+                        🗓️ Calendário & Configuração
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <p id="info-casamento">Configure a data para começar.</p>
+                        <button id="configBtn" class="button is-info is-light is-fullwidth">Configurar Data</button>
+                        <hr>
+                        <h4 class="title is-5">Compromissos</h4>
+                        <ul id="lista-compromissos">
+                            <li><progress class="progress is-small is-info" max="100">0%</progress></li>
+                        </ul>
+                        <button class="button is-link is-light is-small">Adicionar Compromisso</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-one-third">
+            <div class="card">
+                <header class="card-header has-background-warning">
+                    <p class="card-header-title">
+                        ✅ Checklist & Fornecedores
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <h4 class="title is-5">Checklist</h4>
+                        <ul id="lista-checklist">
+                            <li>Carregando...</li>
+                        </ul>
+                        <hr>
+                        <h4 class="title is-5">Fornecedores</h4>
+                        <p>Fotógrafo: <strong id="fotografo-nome">Não Definido</strong></p>
+                        <p>Local da Festa: <strong id="local-festa-nome">Não Definido</strong></p>
+                        <button class="button is-warning is-light is-small">Gerenciar Fornecedores</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="column is-one-third">
+            <div class="card">
+                <header class="card-header has-background-success">
+                    <p class="card-header-title has-text-white">
+                        🎁 Lista & Convidados
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <h4 class="title is-5">Lista de Presentes</h4>
+                        <p>Itens cadastrados: <strong id="cont-presentes">0</strong></p>
+                        <button class="button is-success is-light is-fullwidth">Gerenciar Lista</button>
+                        <hr>
+                        <h4 class="title is-5">Confirmação de Presença</h4>
+                        <p>Convidados Confirmados: <strong id="cont-confirmados">0</strong></p>
+                        <button id="gerarLinkBtn" class="button is-danger is-light is-small">Gerar Link Convidado</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Wedding Planner</strong> por Gemi Dev. 
+    </p>
+  </div>
+</footer>
+
+<script>
+    // ⚠️ ATENÇÃO: Use o token impresso no console do Express
+    const NOIVA_TOKEN = 'noiva-super-secreta-token'; 
+    const API_URL = 'http://localhost:3000/api';
+    
+    // Configuração de Requisição
+    const authHeaders = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${NOIVA_TOKEN}`
+    };
+
+    // --- Funções de Inicialização ---
+    async function initDashboard() {
+        await fetchCalendario();
+        await fetchFornecedores();
+        await fetchChecklist();
+        await fetchPresentes();
+        // ... (você adicionaria mais funções aqui)
+    }
+
+    async function fetchCalendario() {
+        try {
+            const response = await fetch(`${API_URL}/calendario`, { headers: authHeaders });
+            
+            if (!response.ok) {
+                 // Tratamento de Erro fora de 200
+                const errorData = await response.json();
+                document.getElementById('info-casamento').innerHTML = `<p class="has-text-danger">Erro (${errorData.status}): ${errorData.message}</p>`;
+                return;
+            }
+            
+            const data = await response.json();
+            const info = document.getElementById('info-casamento');
+            const lista = document.getElementById('lista-compromissos');
+            
+            info.innerHTML = `Data: <strong>${data.dataCasamento}</strong><br>
+                              Faltam: <strong class="has-text-danger">${data.diasRestantes} dias!</strong>`;
+            
+            lista.innerHTML = data.compromissos.map(c => `<li>${c.data}: ${c.descricao} (${c.tipo})</li>`).join('');
+
+        } catch (error) {
+            console.error('Erro ao carregar calendário:', error);
+            // Mensagem de erro para falha de conexão ou outro erro inesperado
+            document.getElementById('info-casamento').innerHTML = `<p class="has-text-danger">Falha na conexão com a API.</p>`;
+        }
+    }
+    
+    async function fetchChecklist() {
+        // Implementar lógica para buscar e renderizar a checklist
+        try {
+            const response = await fetch(`${API_URL}/checklist`, { headers: authHeaders });
+            const data = await response.json();
+            const lista = document.getElementById('lista-checklist');
+            
+            lista.innerHTML = data.map(item => {
+                const checked = item.concluido ? 'is-success' : 'is-danger';
+                const icon = item.concluido ? '✔️' : '❌';
+                return `<li class="tag ${checked}">${icon} ${item.item}</li>`;
+            }).join('');
+        } catch (error) {
+             document.getElementById('lista-checklist').innerHTML = `<li class="has-text-danger">Erro ao carregar checklist.</li>`;
+        }
+    }
+    
+    async function fetchFornecedores() {
+        // Implementar lógica para buscar e renderizar fornecedores
+        try {
+            const response = await fetch(`${API_URL}/fornecedores`, { headers: authHeaders });
+            const data = await response.json();
+            
+            document.getElementById('fotografo-nome').textContent = data.fotografo ? data.fotografo.nome : 'Não Definido';
+            document.getElementById('local-festa-nome').textContent = data.localFesta ? data.localFesta.nome : 'Não Definido';
+        } catch (error) {
+             // Tratamento de erro
+        }
+    }
+    
+    async function fetchPresentes() {
+        // Implementar lógica para buscar e renderizar contagem de presentes
+         try {
+            const response = await fetch(`${API_URL}/presentes`, { headers: authHeaders });
+            const data = await response.json();
+            
+            document.getElementById('cont-presentes').textContent = data.length;
+        } catch (error) {
+             document.getElementById('cont-presentes').textContent = 'Erro';
+        }
+    }
+
+
+    // --- Event Listeners ---
+    
+    // Simulação de Configuração
+    document.getElementById('configBtn').addEventListener('click', async () => {
+        const dataInput = prompt("Digite a data do casamento (AAAA-MM-DD):", "2026-10-25");
+        if (dataInput) {
+            try {
+                const response = await fetch(`${API_URL}/configuracao`, {
+                    method: 'POST',
+                    headers: authHeaders,
+                    body: JSON.stringify({ dataCasamento: dataInput })
+                });
+
+                if (response.ok) {
+                    alert('Casamento configurado com sucesso! Recarregando...');
+                    initDashboard(); // Atualiza a dashboard
+                } else {
+                    const errorData = await response.json();
+                    alert(`Erro ao configurar: ${errorData.message}`);
+                }
+            } catch (error) {
+                 alert('Erro de conexão ao configurar o casamento.');
+            }
+        }
+    });
+    
+    // Simulação de Gerar Link
+     document.getElementById('gerarLinkBtn').addEventListener('click', async () => {
+        const nomeConvidado = prompt("Digite o nome do convidado:", "Joana Silva");
+        if (nomeConvidado) {
+            try {
+                const response = await fetch(`${API_URL}/convidados/gerar-link`, {
+                    method: 'POST',
+                    headers: authHeaders,
+                    body: JSON.stringify({ nomeConvidado })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    prompt(`Link para ${nomeConvidado} (Copie e Cole):`, data.linkConvite);
+                } else {
+                    const errorData = await response.json();
+                    alert(`Erro ao gerar link: ${errorData.message}`);
+                }
+            } catch (error) {
+                 alert('Erro de conexão ao gerar o link.');
+            }
+        }
+    });
+
+    // Iniciar
+    initDashboard();
+
+</script>
+
+</body>
+</html>

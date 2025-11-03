@@ -1,0 +1,165 @@
+# resources/swagger.yaml
+swagger: "2.0"
+info:
+  title: API de Organização de Casamento (Wedding Planner)
+  description: API para gerenciar todas as etapas de um casamento.
+  version: "1.0.0"
+host: localhost:3000
+basePath: /api
+schemes:
+  - http
+securityDefinitions:
+  NoivaAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: 'Token Bearer da Noiva (Ex: Bearer noiva-super-secreta-token)'
+
+paths:
+  /configuracao:
+    post:
+      tags:
+        - Noiva - Configuração
+      summary: Configura a data do casamento e inicializa os dados.
+      security:
+        - NoivaAuth: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              dataCasamento:
+                type: string
+                format: date
+                example: "2026-10-25"
+      responses:
+        "201":
+          description: Casamento configurado com sucesso.
+        "401":
+          $ref: '#/responses/Unauthorized'
+        "400":
+          $ref: '#/responses/BadRequest'
+
+  /calendario:
+    get:
+      tags:
+        - Noiva - Calendário
+      summary: Retorna a data do casamento e dias restantes, além da lista de compromissos.
+      security:
+        - NoivaAuth: []
+      responses:
+        "200":
+          description: Sucesso.
+        "401":
+          $ref: '#/responses/Unauthorized'
+    post:
+      tags:
+        - Noiva - Calendário
+      summary: Adiciona um novo compromisso ao calendário.
+      security:
+        - NoivaAuth: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              data:
+                type: string
+                format: date
+                example: "2026-05-15"
+              descricao:
+                type: string
+                example: "Prova de Vestido Atelier X"
+              tipo:
+                type: string
+                example: "Prova"
+      responses:
+        "201":
+          description: Compromisso adicionado.
+        "401":
+          $ref: '#/responses/Unauthorized'
+        "400":
+          $ref: '#/responses/BadRequest'
+          
+  /convidado/lista-presentes/{hash}:
+    get:
+      tags:
+        - Convidado - Lista de Presentes
+      summary: Obtém a lista de presentes disponíveis para um convidado específico.
+      parameters:
+        - name: hash
+          in: path
+          required: true
+          type: string
+          description: Hash único do convidado.
+      responses:
+        "200":
+          description: Sucesso.
+        "404":
+          $ref: '#/responses/NotFound'
+
+  /convidado/confirmar-presenca:
+    post:
+      tags:
+        - Convidado - Confirmação
+      summary: Confirma a presença do convidado.
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              convidadoHash:
+                type: string
+                example: "Tm9tZSBkbyBDb252aWRhZG8="
+              confirmacao:
+                type: string
+                enum: ['sim', 'nao']
+                example: "sim"
+      responses:
+        "200":
+          description: Confirmação registrada, redirecionar para lista.
+        "404":
+          $ref: '#/responses/NotFound'
+          
+  # ... Adicione mais rotas conforme o 'noivaRoutes.js' ...
+
+responses:
+  Unauthorized:
+    description: Não Autorizado. Token da Noiva inválido ou ausente.
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: "Não Autorizado. Token da Noiva inválido ou ausente."
+  BadRequest:
+    description: Requisição inválida devido a dados ausentes ou incorretos.
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: "Data do casamento é obrigatória."
+  NotFound:
+    description: Recurso não encontrado.
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: "Link de convidado inválido."
