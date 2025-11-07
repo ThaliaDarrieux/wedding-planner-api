@@ -11,7 +11,6 @@ const webPort = 4000;
 app.use(bodyParser.json());
 
 // ⚠️ MOCK DE DADOS (Substitua por um Banco de Dados real em produção)
-// Usaremos objetos globais para simular o armazenamento de dados.
 global.weddingData = {
     noiva: null,
     calendario: [],
@@ -23,8 +22,6 @@ global.weddingData = {
 
 // ----------------------------------------------------
 // Middleware de Autenticação (Simples)
-// Apenas para simular o login da noiva.
-// Em um cenário real, usaria JWT ou sessions.
 const NOIVA_TOKEN = 'noiva-super-secreta-token';
 
 const authNoiva = (req, res, next) => {
@@ -32,7 +29,6 @@ const authNoiva = (req, res, next) => {
     if (token === `Bearer ${NOIVA_TOKEN}`) {
         next(); // Autorizado
     } else {
-        // HTTP 401: Não Autorizado (para falhas de autenticação)
         res.status(401).json({ status: 401, message: 'Não Autorizado. Token da Noiva inválido ou ausente.' });
     }
 };
@@ -45,47 +41,52 @@ const noivaRoutes = require('./routes/noivaRoutes');
 app.use('/api', noivaRoutes(authNoiva));
 
 // ----------------------------------------------------
-// FRONTEND (Servindo a Aplicação Web na porta 4000)
+// ✅ SWAGGER DOCUMENTATION (Documentação da API)
 
-// Servir arquivos estáticos da pasta 'public'
+// Importa o Swagger UI e o arquivo YAML
+const { swaggerUi, swaggerDocument } = require('./swagger');
+
+// Expor a documentação em http://localhost:3000/api-docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+console.log('\n📘 Documentação Swagger disponível em: http://localhost:3000/api-docs');
+// ----------------------------------------------------
+
+// FRONTEND (Servindo a Aplicação Web na porta 4000)
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Rota para a página inicial da aplicação web
 app.get('/', (req, res) => {
-    // Redireciona para o arquivo index.html na pasta 'public'
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 // ----------------------------------------------------
-// Tratamento de Erros (Para status code fora de 200)
+// Tratamento de Erros
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    // Erro genérico do servidor
-    res.status(500).json({ 
-        status: 500, 
+    res.status(500).json({
+        status: 500,
         message: 'Ocorreu um erro interno no servidor da API.',
-        error: err.message 
+        error: err.message
     });
 });
 
 // Inicialização da API
 app.listen(apiPort, () => {
-    console.log(`API de Casamento rodando em http://localhost:${apiPort}/`);
+    console.log(`✅ API de Casamento rodando em: http://localhost:${apiPort}/`);
+    console.log(`🔗 Swagger UI: http://localhost:${apiPort}/api-docs`);
 });
 
 // Inicialização da Aplicação Web
 const webApp = express();
 webApp.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Servir a aplicação web
 webApp.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 webApp.listen(webPort, () => {
-    console.log(`Aplicação Web (Frontend) rodando em http://localhost:${webPort}/`);
+    console.log(`💒 Aplicação Web (Frontend) rodando em: http://localhost:${webPort}/`);
 });
 
-// Exemplo de como usar o token da Noiva:
-console.log(`\nTOKEN DE AUTORIZAÇÃO DA NOIVA (para testes): Bearer ${NOIVA_TOKEN}`);
-console.log('Para acessar a API como noiva, use este token no cabeçalho "Authorization".');
+console.log(`\n🔐 TOKEN DE AUTORIZAÇÃO DA NOIVA (para testes): Bearer ${NOIVA_TOKEN}`);
+console.log('Use este token no cabeçalho "Authorization" ao testar endpoints protegidos.');
