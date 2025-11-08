@@ -101,11 +101,10 @@ Modelo para gestão da lista de convidados e presentes.
     ```
 
 2.  **Instale Dependências e Configure o Ambiente:**
-    * `[Comandos de instalação, ex: npm install]`
     * Certifique-se de configurar as variáveis de ambiente necessárias (como a porta da aplicação e a chave secreta do JWT).
 
 3.  **Inicie a API:**
-    * `[Comando para iniciar a aplicação, ex: npm run dev]`
+    * npm start ou node server.js
 
 A API estará rodando em `http://localhost:3000/api`.
 
@@ -114,4 +113,5 @@ A API estará rodando em `http://localhost:3000/api`.
 ## 🤝 Contribuições
 
 Contribuições são bem-vindas! Siga o fluxo padrão de Git: Fork, crie uma Branch, faça suas alterações e abra um Pull Request.
+
 
