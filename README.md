@@ -1,34 +1,39 @@
-<<<<<<< HEAD
 # 💍 API de Casamento - Wedding Planner
 
 [![API RESTful](https://img.shields.io/badge/API-RESTful-blue?style=for-the-badge)](https://pt.wikipedia.org/wiki/Representational_State_Transfer)
 [![Autenticação](https://img.shields.io/badge/Autenticação-JWT-orange?style=for-the-badge)](https://jwt.io/)
 [![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellowgreen?style=for-the-badge)]()
+[![Tecnologias](https://img.shields.io/badge/Tecnologias-Node.js%20%7C%20Express-red?style=for-the-badge)](https://nodejs.org/)
 
-**Descrição:** API robusta para gerenciamento completo de casamentos. Ela atende às necessidades da **noiva**, permitindo o controle de convidados, checklist, fornecedores, calendário e lista de presentes. **Toda a gestão é protegida por autenticação JWT** (Login e Cadastro).
+## 🌟 Visão Geral e Funcionalidades
+
+API robusta, desenvolvida em Node.js/Express, para o **gerenciamento completo de casamentos**. O sistema atende às necessidades da noiva, centralizando a gestão em módulos protegidos por autenticação **JWT**.
+
+### Principais Funcionalidades
+
+* **Autenticação JWT:** Sistema de Login e Registro da noiva com proteção de token.
+* **Gestão de Convidados:** CRUD (Create, Read, Update, Delete) para convidados, incluindo status de RSVP e registro de presentes.
+* **Checklist:** Acompanhamento de todas as tarefas e prazos do planejamento.
+* **Fornecedores:** Cadastro de empresas e contatos contratados (buffet, foto, etc.).
+* **Calendário:** Agenda de eventos e compromissos importantes.
 
 ---
 
-## 🗺️ Visão Geral e Documentação
+## 🔒 Segurança e Autenticação (JWT)
 
-Esta API utiliza o padrão **OpenAPI 3.0.0** (Swagger) para garantir uma documentação precisa e interativa.
+A API requer autenticação em todas as rotas de gestão. O token de acesso deve ser obtido após o login e enviado no cabeçalho de todas as requisições protegidas.
 
-### Endpoints Base
-O servidor de desenvolvimento está acessível em:
-`http://localhost:3000/api`
+### Fluxo de Autenticação
 
-### 🔒 Autenticação (JWT)
-Todas as rotas de gestão (Convidados, Checklist, Fornecedores e Calendário) requerem autenticação.
-
-1.  Use o endpoint **`/noiva/registro`** para criar uma nova conta.
-2.  Use o endpoint **`/noiva/login`** para obter o **Token JWT**.
-3.  Este token deve ser enviado no cabeçalho de autorização (**`Authorization: Bearer <TOKEN>`**) em todas as requisições protegidas.
+1.  **Registro:** Use `POST /noiva/registro` para criar uma nova conta.
+2.  **Login e Token:** Use `POST /noiva/login` para obter o **Token JWT**.
+3.  **Requisições Protegidas:** Inclua o cabeçalho: `Authorization: Bearer <TOKEN>`
 
 ---
 
 ## 🔑 Endpoints Principais da API
 
-Abaixo está um resumo das principais funcionalidades da API, agrupadas por Tag:
+O servidor de desenvolvimento está acessível em: `http://localhost:3000/api`
 
 ### 👰‍♀️ Noiva (Autenticação e Perfil)
 
@@ -36,7 +41,7 @@ Abaixo está um resumo das principais funcionalidades da API, agrupadas por Tag:
 | :--- | :--- | :--- | :---: |
 | **POST** | `/noiva/registro` | Cria o cadastro da noiva (Nome, E-mail, Senha). | ❌ |
 | **POST** | `/noiva/login` | Faz o login e retorna o **Token JWT**. | ❌ |
-| **GET** | `/noiva` | Busca os dados da noiva logada. | ✅ |
+| **GET** | `/noiva` | Busca os dados do perfil da noiva logada. | ✅ |
 | **POST** | `/noiva` | Salva novos dados de perfil da noiva. | ✅ |
 
 ### ✉️ Convidados (Gestão da Lista)
@@ -46,26 +51,13 @@ Abaixo está um resumo das principais funcionalidades da API, agrupadas por Tag:
 | **GET** | `/convidados` | Retorna a lista completa de convidados. | ✅ |
 | **POST** | `/convidados` | Adiciona um novo convidado à lista. | ✅ |
 
-### 📋 Checklist (Organização de Tarefas)
+### Outros Módulos Protegidos
 
-| Método | Caminho | Descrição | Segurança |
-| :--- | :--- | :--- | :---: |
-| **GET** | `/checklist` | Retorna a lista de tarefas pendentes e concluídas. | ✅ |
-| **POST** | `/checklist` | Adiciona um novo item ao checklist. | ✅ |
-
-### 📅 Calendário (Prazos e Eventos)
-
-| Método | Caminho | Descrição | Segurança |
-| :--- | :--- | :--- | :---: |
-| **GET** | `/calendario` | Lista todos os eventos e datas importantes. | ✅ |
-| **POST** | `/calendario` | Adiciona um novo evento ou compromisso (ex: prova do vestido). | ✅ |
-
-### 💼 Fornecedores (Contratação)
-
-| Método | Caminho | Descrição | Segurança |
-| :--- | :--- | :--- | :---: |
-| **GET** | `/fornecedores` | Lista todos os fornecedores cadastrados. | ✅ |
-| **POST** | `/fornecedores` | Adiciona um novo fornecedor (Buffet, Fotógrafo, etc.). | ✅ |
+| Tag | Método | Caminho | Descrição | Segurança |
+| :--- | :--- | :--- | :--- | :---: |
+| **Checklist** | `GET/POST` | `/checklist` | Listar / Adicionar item à lista de tarefas. | ✅ |
+| **Fornecedores** | `GET/POST` | `/fornecedores` | Listar / Adicionar um fornecedor. | ✅ |
+| **Calendário** | `GET/POST` | `/calendario` | Listar / Adicionar um evento ou prazo. | ✅ |
 
 ---
 
@@ -81,95 +73,54 @@ Modelo usado para registro e atualização de perfil.
 | **`senha`** | `string` | "123456" | Senha (apenas no Registro/Login). |
 
 ### `Convidado`
-Modelo para gestão da lista de convidados e presentes.
+Modelo para gestão da lista de convidados.
 
 | Propriedade | Tipo | Exemplo | Descrição |
 | :--- | :--- | :--- | :--- |
-| **`nome`** | `string` | "Maria Souza" | Nome do convidado. |
+| **`nome`** | `string` | "Maria Souza" | Nome do convidado (Obrigatório). |
 | **`presente`** | `string` | "Panela elétrica" | Presente dado ou a dar. |
-| **`confirmado`** | `boolean` | `true` | Status de confirmação de presença. |
+| **`confirmado`** | `boolean` | `true` | Status de confirmação de presença (RSVP). |
 
 ---
 
-## 🚀 Instalação e Execução Local
+## 🛠️ Instalação e Execução Local
 
-*(Aqui você deve preencher as etapas para clonar e rodar o seu código real.)*
+Para rodar a API em seu ambiente local (assumindo Node.js/npm e MongoDB):
 
 1.  **Clone o Repositório:**
     ```bash
-    git clone [https://www.youtube.com/shorts/3mMG25WHLkU](https://www.youtube.com/shorts/3mMG25WHLkU)
-    cd nome-do-projeto
+    git clone [https://docs.github.com/pt/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github](https://docs.github.com/pt/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github)
+    cd wedding-planner-api
     ```
 
-2.  **Instale Dependências e Configure o Ambiente:**
-    * `[Comandos de instalação, ex: npm install]`
-    * Certifique-se de configurar as variáveis de ambiente necessárias (como a porta da aplicação e a chave secreta do JWT).
+2.  **Instale Dependências:**
+    ```bash
+    npm install
+    ```
 
-3.  **Inicie a API:**
-    * `[Comando para iniciar a aplicação, ex: npm run dev]`
+3.  **Configure o Ambiente:**
+    * Crie um arquivo `.env` na raiz do projeto.
+    * Defina as variáveis de ambiente necessárias (ex: `PORT=3000`, `MONGO_URI`, `JWT_SECRET`).
 
-A API estará rodando em `http://localhost:3000/api`.
+4.  **Inicie a API:**
+    ```bash
+    [Comando para iniciar a aplicação, ex: npm start ou npm run dev]
+    ```
+    A API estará rodando em `http://localhost:3000/api`.
+
+---
+
+## 📄 Documentação Adicional
+
+| Documento | Descrição | Link |
+| :--- | :--- | :--- |
+| **OpenAPI (Swagger)** | Especificação completa do contrato da API (schemas e endpoints). | [Link para o arquivo swagger.yaml] |
+| **Regras de Negócio** | Detalhes sobre o comportamento e as regras de validação dos dados da API. | [Link para o arquivo BUSINESS_RULES.md] |
 
 ---
 
 ## 🤝 Contribuições
 
-Contribuições são bem-vindas! Siga o fluxo padrão de Git: Fork, crie uma Branch, faça suas alterações e abra um Pull Request.
+Contribuições são bem-vindas! Siga o fluxo padrão: Fork do repositório, crie uma Branch para suas alterações, e abra um Pull Request.
 
----
-=======
-# 💍 API de Casamento - Wedding Planner
-
-API RESTful completa para gerenciamento de eventos de casamento. Este sistema oferece módulos para controle de convidados, checklist de tarefas, registro de fornecedores, calendário de eventos e gestão de perfil da noiva.
-
-## 🌟 Principais Funcionalidades
-
-* **Autenticação JWT:** Login e Registro da noiva (usuário principal) com proteção de token.
-* **Gestão de Convidados:** Adicionar, listar e gerenciar o status de RSVP e presentes.
-* **Checklist:** Acompanhamento de todas as tarefas e prazos do planejamento.
-* **Fornecedores:** Cadastro de empresas e contatos contratados (buffet, foto, etc.).
-* **Calendário:** Agenda de eventos e compromissos importantes.
-
-## 🔑 Segurança e Acesso
-
-A API utiliza autenticação **JSON Web Token (JWT)**. Para acessar as rotas protegidas (todas as rotas de gestão), o usuário deve primeiro fazer o login e enviar o token no cabeçalho `Authorization: Bearer <token>`.
-
-### Endpoints de Autenticação
-* `POST /noiva/registro` - Criação de uma nova conta.
-* `POST /noiva/login` - Retorna o token de acesso.
-
-## 🗺️ Mapeamento de Rotas
-
-| Tag | Método | Caminho | Descrição | Requer JWT |
-| :--- | :--- | :--- | :--- | :---: |
-| **Noiva** | `GET/POST` | `/noiva` | Busca/Atualiza o perfil da noiva. | Sim |
-| **Convidados** | `GET/POST` | `/convidados` | Listar / Adicionar um novo convidado. | Sim |
-| **Checklist** | `GET/POST` | `/checklist` | Listar / Adicionar item à lista de tarefas. | Sim |
-| **Fornecedores** | `GET/POST` | `/fornecedores` | Listar / Adicionar um fornecedor. | Sim |
-| **Calendário** | `GET/POST` | `/calendario` | Listar / Adicionar um evento ou prazo. | Sim |
-
-## 🛠️ Tecnologias e Setup
-
-*(Preencha esta seção com sua stack, ex: Node.js/Express, Python/Django, e os passos essenciais para rodar o projeto localmente.)*
-
-* **Servidor Base:** `http://localhost:3000/api`
-* **Tecnologias:** [Node.js, Express, MongoDB, etc.]
-* **Setup:**
-    1.  Clonar o repositório.
-    2.  Instalar dependências (`npm install` ou equivalente).
-    3.  Configurar as variáveis de ambiente (DB e JWT Secret).
-    4.  Rodar o servidor (`npm start` ou equivalente).
-
-## 📄 Documentação OpenAPI
-
-O contrato completo da API (incluindo schemas e responses) pode ser consultado no arquivo [OpenAPI Specification](https://github.com/ThaliaDarrieux/wedding-planner-api/blob/main/resources/swagger.yaml).
-
-## 🧐 Detalhes Técnicos e Regras de Negócio
-
-Para uma descrição completa do comportamento e das regras de validação dos dados da API, consulte a documentação detalhada:
-
-[Regras de Negócio da API (BUSINESS_RULES.md)](https://github.com/ThaliaDarrieux/wedding-planner-api/blob/main/REGRAS_DE_NEG%C3%93CIO.md)
----
-
-
->>>>>>> 3fda4f39ac90dd2f461e365fff0c379fe0f1f8eb
+**Fluxo Sugerido:** `git checkout -b feature/minha-nova-feature`
