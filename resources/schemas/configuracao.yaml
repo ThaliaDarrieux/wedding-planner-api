@@ -1,0 +1,17 @@
+Configuracao:
+  type: object
+  description: Configurações gerais do casamento
+  properties:
+    data:
+      type: string
+      format: date
+      example: "2025-09-15"
+    local:
+      type: string
+      example: "Espaço Jardim Florido"
+    tema:
+      type: string
+      example: "Romântico Rústico"
+    convidadosMaximo:
+      type: integer
+      example: 120

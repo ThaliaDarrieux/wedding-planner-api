@@ -1,0 +1,13 @@
+Convidado:
+  type: object
+  properties:
+    nome:
+      type: string
+      example: "João Silva"
+    confirmado:
+      type: boolean
+      example: true
+    presente:
+      type: string
+      nullable: true
+      example: "Jogo de taças"

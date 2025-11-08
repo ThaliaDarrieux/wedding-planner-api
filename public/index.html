@@ -107,11 +107,11 @@
 </footer>
 
 <script>
-    // ⚠️ ATENÇÃO: Use o token impresso no console do Express
+document.addEventListener('DOMContentLoaded', () => {
+
     const NOIVA_TOKEN = 'noiva-super-secreta-token'; 
     const API_URL = 'http://localhost:3000/api';
     
-    // Configuração de Requisição
     const authHeaders = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${NOIVA_TOKEN}`
@@ -123,7 +123,6 @@
         await fetchFornecedores();
         await fetchChecklist();
         await fetchPresentes();
-        // ... (você adicionaria mais funções aqui)
     }
 
     async function fetchCalendario() {
@@ -131,7 +130,6 @@
             const response = await fetch(`${API_URL}/calendario`, { headers: authHeaders });
             
             if (!response.ok) {
-                 // Tratamento de Erro fora de 200
                 const errorData = await response.json();
                 document.getElementById('info-casamento').innerHTML = `<p class="has-text-danger">Erro (${errorData.status}): ${errorData.message}</p>`;
                 return;
@@ -148,13 +146,11 @@
 
         } catch (error) {
             console.error('Erro ao carregar calendário:', error);
-            // Mensagem de erro para falha de conexão ou outro erro inesperado
             document.getElementById('info-casamento').innerHTML = `<p class="has-text-danger">Falha na conexão com a API.</p>`;
         }
     }
     
     async function fetchChecklist() {
-        // Implementar lógica para buscar e renderizar a checklist
         try {
             const response = await fetch(`${API_URL}/checklist`, { headers: authHeaders });
             const data = await response.json();
@@ -166,12 +162,11 @@
                 return `<li class="tag ${checked}">${icon} ${item.item}</li>`;
             }).join('');
         } catch (error) {
-             document.getElementById('lista-checklist').innerHTML = `<li class="has-text-danger">Erro ao carregar checklist.</li>`;
+            document.getElementById('lista-checklist').innerHTML = `<li class="has-text-danger">Erro ao carregar checklist.</li>`;
         }
     }
     
     async function fetchFornecedores() {
-        // Implementar lógica para buscar e renderizar fornecedores
         try {
             const response = await fetch(`${API_URL}/fornecedores`, { headers: authHeaders });
             const data = await response.json();
@@ -179,26 +174,21 @@
             document.getElementById('fotografo-nome').textContent = data.fotografo ? data.fotografo.nome : 'Não Definido';
             document.getElementById('local-festa-nome').textContent = data.localFesta ? data.localFesta.nome : 'Não Definido';
         } catch (error) {
-             // Tratamento de erro
+            console.error('Erro ao carregar fornecedores:', error);
         }
     }
     
     async function fetchPresentes() {
-        // Implementar lógica para buscar e renderizar contagem de presentes
-         try {
+        try {
             const response = await fetch(`${API_URL}/presentes`, { headers: authHeaders });
             const data = await response.json();
-            
             document.getElementById('cont-presentes').textContent = data.length;
         } catch (error) {
-             document.getElementById('cont-presentes').textContent = 'Erro';
+            document.getElementById('cont-presentes').textContent = 'Erro';
         }
     }
 
-
     // --- Event Listeners ---
-    
-    // Simulação de Configuração
     document.getElementById('configBtn').addEventListener('click', async () => {
         const dataInput = prompt("Digite a data do casamento (AAAA-MM-DD):", "2026-10-25");
         if (dataInput) {
@@ -211,19 +201,18 @@
 
                 if (response.ok) {
                     alert('Casamento configurado com sucesso! Recarregando...');
-                    initDashboard(); // Atualiza a dashboard
+                    initDashboard();
                 } else {
                     const errorData = await response.json();
                     alert(`Erro ao configurar: ${errorData.message}`);
                 }
             } catch (error) {
-                 alert('Erro de conexão ao configurar o casamento.');
+                alert('Erro de conexão ao configurar o casamento.');
             }
         }
     });
     
-    // Simulação de Gerar Link
-     document.getElementById('gerarLinkBtn').addEventListener('click', async () => {
+    document.getElementById('gerarLinkBtn').addEventListener('click', async () => {
         const nomeConvidado = prompt("Digite o nome do convidado:", "Joana Silva");
         if (nomeConvidado) {
             try {
@@ -241,14 +230,14 @@
                     alert(`Erro ao gerar link: ${errorData.message}`);
                 }
             } catch (error) {
-                 alert('Erro de conexão ao gerar o link.');
+                alert('Erro de conexão ao gerar o link.');
             }
         }
     });
 
-    // Iniciar
+    // Inicializa o painel
     initDashboard();
-
+});
 </script>
 
 </body>

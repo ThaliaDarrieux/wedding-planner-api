@@ -1,0 +1,19 @@
+Noiva:
+  type: object
+  description: Dados principais da noiva
+  properties:
+    nome:
+      type: string
+      example: "Maria Clara"
+    idade:
+      type: integer
+      example: 28
+    vestido:
+      type: string
+      example: "Encanto Real"
+    email:
+      type: string
+      example: "maria.clara@example.com"
+    telefone:
+      type: string
+      example: "(24) 99999-9999"
