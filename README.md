@@ -13,8 +13,6 @@
 
 A especificação completa do contrato da API (OpenAPI 3.0) está disponível através da interface interativa do Swagger UI:
 
-[👉 ACESSE O SWAGGER UI AQUI](http://localhost:3000/api-docs/)
-
 ### Servidor Base
 O servidor de desenvolvimento está acessível em:
 `http://localhost:3000/api`
@@ -37,4 +35,5 @@ curl -X POST 'http://localhost:3000/api/noiva/registro' \
     "senha": "123456"
 }'
 # Resposta esperada: 201 Created
+
 
