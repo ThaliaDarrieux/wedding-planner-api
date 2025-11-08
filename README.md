@@ -114,7 +114,7 @@ Para rodar a API em seu ambiente local (assumindo Node.js/npm e MongoDB):
 
 | Documento | Descrição | Link |
 | :--- | :--- | :--- |
-| **OpenAPI (Swagger)** | Especificação completa do contrato da API (schemas e endpoints). | [Link para o arquivo swagger.yaml] |
+| **OpenAPI (Swagger)** | Especificação completa do contrato da API (schemas e endpoints). | [Link para o arquivo swagger.yaml](https://github.com/ThaliaDarrieux/wedding-planner-api/blob/main/resources/swagger.yaml) |
 | **Regras de Negócio** | Detalhes sobre o comportamento e as regras de validação dos dados da API. | [REGRAS_DE_NEGÓCIO.md](https://github.com/ThaliaDarrieux/wedding-planner-api/blob/main/REGRAS_DE_NEG%C3%93CIO.md) |
 
 ---
@@ -122,5 +122,4 @@ Para rodar a API em seu ambiente local (assumindo Node.js/npm e MongoDB):
 ## 🤝 Contribuições
 
 Contribuições são bem-vindas! Siga o fluxo padrão: Fork do repositório, crie uma Branch para suas alterações, e abra um Pull Request.
-
-**Fluxo Sugerido:** `git checkout -b feature/minha-nova-feature`
+`
