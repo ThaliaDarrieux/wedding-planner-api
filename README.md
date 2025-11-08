@@ -168,7 +168,7 @@ O contrato completo da API (incluindo schemas e responses) pode ser consultado n
 
 Para uma descrição completa do comportamento e das regras de validação dos dados da API, consulte a documentação detalhada:
 
-[Regras de Negócio da API (BUSINESS_RULES.md)](/BUSINESS_RULES.md)
+[Regras de Negócio da API (BUSINESS_RULES.md)](https://github.com/ThaliaDarrieux/wedding-planner-api/blob/main/REGRAS_DE_NEG%C3%93CIO.md)
 ---
 
 
