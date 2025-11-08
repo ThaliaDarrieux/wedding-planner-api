@@ -1,72 +1,76 @@
 // src/routes/noivaRoutes.js
 const express = require('express');
-const noivaController = require('../controllers/noivaController');
-const convidadoController = require('../controllers/convidadoController');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { validarNoiva } = require('../middlewares/validators');
+
+const SECRET = process.env.NOIVA_SECRET || 'segredo-da-noiva';
 
 module.exports = (authNoiva) => {
     const router = express.Router();
-    
-    // -----------------------------------------------
-    // Rotas de Convidado (Acesso sem autenticação, apenas com hash)
-    // Acesso à lista de presentes e confirmação.
-    // -----------------------------------------------
-    
-    // GET /api/convidado/lista-presentes/:hash
-    router.get('/convidado/lista-presentes/:hash', convidadoController.getListaPresentesConvidado);
-    
-    // POST /api/convidado/confirmar-presenca
-    router.post('/convidado/confirmar-presenca', convidadoController.confirmarPresenca);
-    
-    // POST /api/convidado/comprar-presente
-    router.post('/convidado/comprar-presente', convidadoController.comprarPresente);
-    
-    // -----------------------------------------------
-    // Rotas da Noiva (Acesso com authNoiva)
-    // -----------------------------------------------
-    
-    // Rotas de Configuração
-    router.post('/configuracao', authNoiva, noivaController.configurarCasamento);
-    
-    // Rotas de Calendário
-    router.get('/calendario', authNoiva, noivaController.getCalendario);
-    router.post('/calendario', authNoiva, noivaController.addCompromisso);
-    
-    // Rotas de Fornecedores
-    router.get('/fornecedores', authNoiva, noivaController.getFornecedores);
-    router.post('/fornecedores', authNoiva, noivaController.setFornecedor);
-    
-    // Rotas de Checklist
-    router.get('/checklist', authNoiva, noivaController.getChecklist);
-    router.put('/checklist/:id/concluir', authNoiva, noivaController.concluirItemChecklist);
-    
-    // Rotas de Lista de Presentes (Gestão)
-    router.get('/presentes', authNoiva, noivaController.getListaPresentesNoiva);
-    router.post('/presentes', authNoiva, noivaController.addPresente);
-    
-    // Rotas de Convidados (Gestão)
-    router.get('/convidados', authNoiva, noivaController.getConvidados);
-    router.post('/convidados/gerar-link', authNoiva, noivaController.gerarLinkConvidado);
 
-    // Rota de Locais (Simulação de filtro)
-    router.get('/locais', authNoiva, (req, res) => {
-        const { regiao, estilo } = req.query;
-        // Mock de dados para simular filtro
-        const locaisMock = [
-            { nome: 'Chácara do Lago', regiao: 'Interior', estilo: 'Rústico', capacidade: 300 },
-            { nome: 'Salão Majestic', regiao: 'Capital', estilo: 'Clássico', capacidade: 150 },
-            { nome: 'Praia do Amor', regiao: 'Litoral', estilo: 'Praia', capacidade: 100 },
-        ];
+    // Simulação de "banco de dados" para as noivas cadastradas
+    global.noivas = global.noivas || [];
 
-        let locaisFiltrados = locaisMock;
-        if (regiao) {
-            locaisFiltrados = locaisFiltrados.filter(l => l.regiao.toLowerCase() === regiao.toLowerCase());
+    // 🧍‍♀️ Registro da Noiva (Cadastro)
+    router.post('/noiva/registro', (req, res) => {
+        const { nome, email, senha } = req.body;
+
+        if (!nome || !email || !senha) {
+            return res.status(400).json({ message: 'Nome, e-mail e senha são obrigatórios.' });
         }
-        if (estilo) {
-            locaisFiltrados = locaisFiltrados.filter(l => l.estilo.toLowerCase() === estilo.toLowerCase());
+
+        const existe = global.noivas.find((n) => n.email === email);
+        if (existe) {
+            return res.status(400).json({ message: 'E-mail já cadastrado.' });
         }
-        
-        // HTTP 200: OK
-        res.status(200).json(locaisFiltrados);
+
+        const senhaCriptografada = bcrypt.hashSync(senha, 10);
+        const novaNoiva = { nome, email, senha: senhaCriptografada };
+        global.noivas.push(novaNoiva);
+
+        res.status(201).json({ message: 'Cadastro realizado com sucesso!' });
+    });
+
+    // 🔐 Login da Noiva
+    router.post('/noiva/login', (req, res) => {
+        const { email, senha } = req.body;
+        const noiva = global.noivas.find((n) => n.email === email);
+
+        if (!noiva) {
+            return res.status(404).json({ message: 'Noiva não encontrada.' });
+        }
+
+        const senhaValida = bcrypt.compareSync(senha, noiva.senha);
+        if (!senhaValida) {
+            return res.status(401).json({ message: 'Senha incorreta.' });
+        }
+
+        const token = jwt.sign({ email: noiva.email }, SECRET, { expiresIn: '2h' });
+        res.json({ message: 'Login realizado com sucesso!', token });
+    });
+
+    // 📝 Salvar dados da Noiva (protegido)
+    router.post('/noiva', authNoiva, (req, res) => {
+        const erro = validarNoiva(req.body);
+        if (erro) {
+            return res.status(400).json({ status: 400, message: erro.message });
+        }
+
+        global.weddingData.noiva = req.body;
+        res.json({
+            status: 200,
+            message: 'Dados da noiva salvos com sucesso!',
+            noiva: global.weddingData.noiva
+        });
+    });
+
+    // 👰 Obter dados da Noiva (protegido)
+    router.get('/noiva', authNoiva, (req, res) => {
+        if (!global.weddingData.noiva) {
+            return res.status(404).json({ status: 404, message: 'Nenhuma noiva cadastrada.' });
+        }
+        res.json(global.weddingData.noiva);
     });
 
     return router;
