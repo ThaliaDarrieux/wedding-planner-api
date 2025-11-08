@@ -1,70 +1,65 @@
-💍 Documentação da API: Wedding Planner
-Esta API foi desenhada para suportar as regras de negócio de uma plataforma de planejamento de casamentos, onde a Noiva é a entidade central e o ponto de controle de todos os módulos.
+# 💍 Regras de Negócio da API: Wedding Planner
 
-🔒 Regras de Negócio de Autenticação
-O fluxo de segurança segue o padrão JWT Bearer para garantir que apenas a usuária cadastrada (a Noiva) possa gerenciar os dados.
+Esta documentação detalha o comportamento funcional e as restrições da API Wedding Planner. O sistema é modelado com a **Noiva** como a entidade central de controle e segurança de todos os dados de planejamento.
 
-1. Registro e Login
-Regra de Unicidade: O endpoint /noiva/registro deve garantir que o email seja único. Se o email já existir, a API deve retornar um status de erro (400 Bad Request ou similar).
+---
 
-Regra de Validação: O email e a senha são campos obrigatórios. A senha deve ser armazenada de forma segura (hashing) no banco de dados.
+## 🔒 Regras de Negócio de Autenticação (JWT Bearer)
 
-Regra de Sucesso no Login: O endpoint /noiva/login deve retornar um Token JWT válido apenas se as credenciais corresponderem ao cadastro, retornando 401 Unauthorized em caso de falha.
+O fluxo de segurança utiliza **JWT (JSON Web Token)** e o esquema **Bearer** para acesso restrito.
 
-2. Acesso Autorizado
-Regra de Acesso: Após o login, o Token JWT é o único meio de autorização.
+### 1. Registro e Login
 
-Rotas Protegidas: Todos os endpoints em Convidados, Checklist, Fornecedores e Calendário (e rotas de gestão da Noiva) devem ter a verificação do JWT ativada. Uma requisição sem um token válido ou expirado deve retornar 401 Unauthorized.
+| Regra | Detalhe | Status Esperado |
+| :--- | :--- | :--- |
+| **Unicidade do E-mail** | O endpoint `/noiva/registro` deve garantir que o `email` seja único para cada cadastro. | `400 Bad Request` (se e-mail já existe) |
+| **Validação de Campos** | Os campos `email` e `senha` são **obrigatórios** no registro e login. A senha deve ser armazenada com **hashing** seguro. | `400 Bad Request` (se campos ausentes) |
+| **Login com Sucesso** | O endpoint `/noiva/login` deve retornar um **Token JWT** válido. | `200 OK` (sucesso), `401 Unauthorized` (falha nas credenciais) |
 
-👰‍♀️ Regras de Negócio dos Módulos
-1. Convidados
-O módulo de convidados suporta o controle da lista de presentes e o RSVP (Confirmação de Presença).
+### 2. Acesso Autorizado
 
-POST /convidados (Adicionar Convidado):
+* **Regra de Acesso:** Após o login, o **Token JWT** é o único meio de autorização para todas as rotas protegidas.
+* **Rotas Protegidas:** Todos os endpoints em **Convidados, Checklist, Fornecedores e Calendário** requerem a verificação do JWT.
+* **Rejeição:** Uma requisição sem um token válido ou com um token expirado deve resultar em **`401 Unauthorized`**.
 
-Regra: O nome do convidado deve ser obrigatório.
+---
 
-Regra: O status confirmado deve ser opcional ou, se não fornecido, inicializado como false.
+## 👰‍♀️ Regras de Negócio dos Módulos Funcionais
 
-Regra: Este endpoint só pode ser acessado pela Noiva autenticada.
+### 1. Convidados
 
-GET /convidados (Listar Convidados):
+O módulo de convidados gerencia a lista de presentes e o RSVP (Confirmação de Presença).
 
-Regra: Deve retornar apenas a lista de convidados associada ao ID da Noiva logada (isolamento de dados).
+| Endpoint | Regras de Inserção (`POST /convidados`) | Regras de Consulta (`GET /convidados`) |
+| :--- | :--- | :--- |
+| **Regra Essencial** | O campo `nome` do convidado é **obrigatório**. | Deve retornar apenas a lista de convidados **associada ao ID da Noiva logada** (isolamento de dados). |
+| **Regra Opcional/Default** | O status `confirmado` deve ser opcional. Se não fornecido, deve ser inicializado como **`false`**. | Pode aceitar *query parameters* (filtros) para listar convidados por status (`confirmado=true`) ou presente. |
+| **Regra de Segurança** | O acesso é restrito à Noiva autenticada. | O acesso é restrito à Noiva autenticada. |
 
-Regra Opcional: Pode-se implementar filtros (query parameters) para listar convidados apenas por status (confirmado=true) ou por presente.
+### 2. Checklist
 
-2. Checklist
-O checklist serve como um gerenciador de tarefas do casamento.
+O checklist é o gerenciador de tarefas do casamento.
 
-POST /checklist (Adicionar Tarefa):
+* **`POST /checklist` (Adicionar Tarefa):**
+    * O campo **`tarefa`** é **obrigatório**.
+    * Uma tarefa nova deve ser inicializada com um status padrão, tipicamente **`pendente`**.
+* **`GET /checklist` (Listar Tarefas):**
+    * Deve retornar apenas as tarefas associadas à Noiva.
+    * Deve suportar ordenação por prazo ou filtragem por status (`pendente`/`concluído`).
 
-Regra: O campo tarefa é obrigatório.
+### 3. Fornecedores
 
-Regra: Uma tarefa nova deve ter um status inicial, geralmente pendente.
+O registro de fornecedores visa organizar os serviços e contatos contratados.
 
-GET /checklist (Listar Tarefas):
+* **`POST /fornecedores` (Adicionar Fornecedor):**
+    * Os campos **`nome`** e **`categoria`** são **obrigatórios** para categorizar o serviço (ex: "Buffet", "Fotografia").
+    * O novo fornecedor deve ser associado ao perfil da Noiva autenticada.
 
-Regra: Deve retornar apenas as tarefas associadas à Noiva logada.
+### 4. Calendário
 
-Regra Opcional: Suporte a ordenação por prazo ou status (pendente/concluído).
+O calendário armazena eventos e prazos cruciais.
 
-3. Fornecedores
-O registro de fornecedores visa organizar os contatos e serviços contratados.
-
-POST /fornecedores (Adicionar Fornecedor):
-
-Regra: Os campos nome e categoria são obrigatórios para classificar o serviço (ex: "Buffet", "Fotografia", "Decoração").
-
-Regra: Deve ser associado à Noiva autenticada.
-
-4. Calendário
-O calendário armazena eventos e prazos cruciais, como provas, reuniões e datas de pagamento.
-
-POST /calendario (Adicionar Evento):
-
-Regra: Os campos data e evento são obrigatórios. O formato de data deve ser consistente (ex: YYYY-MM-DD).
-
-GET /calendario (Listar Eventos):
-
-Regra: A listagem deve retornar eventos ordenados cronologicamente, do mais antigo para o mais recente, facilitando a visualização da agenda.
+* **`POST /calendario` (Adicionar Evento):**
+    * Os campos **`data`** e **`evento`** são **obrigatórios**. O formato de `data` deve ser consistente (ex: `YYYY-MM-DD`).
+* **`GET /calendario` (Listar Eventos):**
+    * A listagem deve retornar eventos **ordenados cronologicamente**, do mais antigo para o mais recente, para um visual de agenda claro.
