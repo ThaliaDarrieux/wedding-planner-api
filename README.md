@@ -42,6 +42,7 @@ A API utiliza autenticação **JSON Web Token (JWT)**. Para acessar as rotas pro
 
 ## 📄 Documentação OpenAPI
 
-O contrato completo da API (incluindo schemas e responses) pode ser consultado no arquivo [OpenAPI Specification](swagger.yaml).
+O contrato completo da API (incluindo schemas e responses) pode ser consultado no arquivo [OpenAPI Specification](https://github.com/ThaliaDarrieux/wedding-planner-api/blob/main/resources/swagger.yaml).
 
 ---
+
