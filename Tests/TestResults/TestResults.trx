@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="05aed026-d54e-4ff4-82fa-da7e598108be" name="thali@DESKTOP-LOS913E 2025-11-07 23:46:26" runUser="DESKTOP-LOS913E\thali" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-11-07T23:46:26.4113680-03:00" queuing="2025-11-07T23:46:26.4113690-03:00" start="2025-11-07T23:46:20.1260982-03:00" finish="2025-11-07T23:46:34.6227033-03:00" />
+  <TestSettings name="default" id="92e3da84-6978-4c0a-8b41-a2a82f0d9d62">
+    <Deployment runDeploymentRoot="thali_DESKTOP-LOS913E_2025-11-07_23_46_26" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="60850368-54ba-44f2-bc6a-358bf9f77537" testId="8684c064-6921-17d5-9a1a-009c6a19bfb9" testName="WeddingPlannerApiTests.C_Convidado_SemNome_DeveRetornar400" computerName="DESKTOP-LOS913E" duration="00:00:04.0753797" startTime="2025-11-07T23:46:30.3902717-03:00" endTime="2025-11-07T23:46:30.3902722-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="60850368-54ba-44f2-bc6a-358bf9f77537">
+      <Output>
+        <ErrorInfo>
+          <Message>System.Net.Http.HttpRequestException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente. (localhost:3000)&#xD;
+---- System.Net.Sockets.SocketException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente.</Message>
+          <StackTrace>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)&#xD;
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)&#xD;
+   at WeddingPlannerApiTests.C_Convidado_SemNome_DeveRetornar400() in C:\Projetos\wedding-planner-api\Tests\Tests.cs:line 120&#xD;
+--- End of stack trace from previous location ---&#xD;
+----- Inner Stack Trace -----&#xD;
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)&#xD;
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)&#xD;
+   at System.Net.Sockets.Socket.&lt;ConnectAsync&gt;g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dd614d60-3cd6-4c20-9c37-782fc9d32fc8" testId="4adf080e-23d2-41c7-7b0e-f1115be21aef" testName="WeddingPlannerApiTests.A_Autenticacao_FluxoCompleto_DeveSerBemSucedido" computerName="DESKTOP-LOS913E" duration="00:00:04.0614461" startTime="2025-11-07T23:46:34.4556623-03:00" endTime="2025-11-07T23:46:34.4556631-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dd614d60-3cd6-4c20-9c37-782fc9d32fc8">
+      <Output>
+        <ErrorInfo>
+          <Message>System.Net.Http.HttpRequestException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente. (localhost:3000)&#xD;
+---- System.Net.Sockets.SocketException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente.</Message>
+          <StackTrace>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)&#xD;
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)&#xD;
+   at WeddingPlannerApiTests.A_Autenticacao_FluxoCompleto_DeveSerBemSucedido() in C:\Projetos\wedding-planner-api\Tests\Tests.cs:line 39&#xD;
+--- End of stack trace from previous location ---&#xD;
+----- Inner Stack Trace -----&#xD;
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)&#xD;
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)&#xD;
+   at System.Net.Sockets.Socket.&lt;ConnectAsync&gt;g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="12807fa8-9bfa-465f-823f-7157f8a37226" testId="77242682-6a24-594e-c7ce-6be94905ed69" testName="WeddingPlannerApiTests.B_Registro_EmailDuplicado_DeveRetornar400" computerName="DESKTOP-LOS913E" duration="00:00:04.2684966" startTime="2025-11-07T23:46:26.3233491-03:00" endTime="2025-11-07T23:46:26.3234291-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="12807fa8-9bfa-465f-823f-7157f8a37226">
+      <Output>
+        <ErrorInfo>
+          <Message>System.Net.Http.HttpRequestException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente. (localhost:3000)&#xD;
+---- System.Net.Sockets.SocketException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente.</Message>
+          <StackTrace>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)&#xD;
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)&#xD;
+   at WeddingPlannerApiTests.B_Registro_EmailDuplicado_DeveRetornar400() in C:\Projetos\wedding-planner-api\Tests\Tests.cs:line 92&#xD;
+--- End of stack trace from previous location ---&#xD;
+----- Inner Stack Trace -----&#xD;
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)&#xD;
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)&#xD;
+   at System.Net.Sockets.Socket.&lt;ConnectAsync&gt;g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)&#xD;
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="WeddingPlannerApiTests.A_Autenticacao_FluxoCompleto_DeveSerBemSucedido" storage="c:\projetos\wedding-planner-api\tests\bin\debug\net9.0\tests.dll" id="4adf080e-23d2-41c7-7b0e-f1115be21aef">
+      <Execution id="dd614d60-3cd6-4c20-9c37-782fc9d32fc8" />
+      <TestMethod codeBase="C:\Projetos\wedding-planner-api\Tests\bin\Debug\net9.0\Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WeddingPlannerApiTests" name="A_Autenticacao_FluxoCompleto_DeveSerBemSucedido" />
+    </UnitTest>
+    <UnitTest name="WeddingPlannerApiTests.B_Registro_EmailDuplicado_DeveRetornar400" storage="c:\projetos\wedding-planner-api\tests\bin\debug\net9.0\tests.dll" id="77242682-6a24-594e-c7ce-6be94905ed69">
+      <Execution id="12807fa8-9bfa-465f-823f-7157f8a37226" />
+      <TestMethod codeBase="C:\Projetos\wedding-planner-api\Tests\bin\Debug\net9.0\Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WeddingPlannerApiTests" name="B_Registro_EmailDuplicado_DeveRetornar400" />
+    </UnitTest>
+    <UnitTest name="WeddingPlannerApiTests.C_Convidado_SemNome_DeveRetornar400" storage="c:\projetos\wedding-planner-api\tests\bin\debug\net9.0\tests.dll" id="8684c064-6921-17d5-9a1a-009c6a19bfb9">
+      <Execution id="60850368-54ba-44f2-bc6a-358bf9f77537" />
+      <TestMethod codeBase="C:\Projetos\wedding-planner-api\Tests\bin\Debug\net9.0\Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="WeddingPlannerApiTests" name="C_Convidado_SemNome_DeveRetornar400" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="8684c064-6921-17d5-9a1a-009c6a19bfb9" executionId="60850368-54ba-44f2-bc6a-358bf9f77537" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4adf080e-23d2-41c7-7b0e-f1115be21aef" executionId="dd614d60-3cd6-4c20-9c37-782fc9d32fc8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="77242682-6a24-594e-c7ce-6be94905ed69" executionId="12807fa8-9bfa-465f-823f-7157f8a37226" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Resultados que não estão em uma lista" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Todos os resultados carregados" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="3" executed="3" passed="0" failed="3" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.10)&#xD;
+[xUnit.net 00:00:00.22]   Discovering: Tests&#xD;
+[xUnit.net 00:00:00.34]   Discovered:  Tests&#xD;
+[xUnit.net 00:00:00.35]   Starting:    Tests&#xD;
+[xUnit.net 00:00:04.81]       System.Net.Http.HttpRequestException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente. (localhost:3000)&#xD;
+[xUnit.net 00:00:04.81]       ---- System.Net.Sockets.SocketException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente.&#xD;
+[xUnit.net 00:00:04.81]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)&#xD;
+[xUnit.net 00:00:04.81]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)&#xD;
+[xUnit.net 00:00:04.81]         C:\Projetos\wedding-planner-api\Tests\Tests.cs(92,0): at WeddingPlannerApiTests.B_Registro_EmailDuplicado_DeveRetornar400()&#xD;
+[xUnit.net 00:00:04.81]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:04.81]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.81]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)&#xD;
+[xUnit.net 00:00:04.82]            at System.Net.Sockets.Socket.&lt;ConnectAsync&gt;g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:04.82]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.88]       System.Net.Http.HttpRequestException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente. (localhost:3000)&#xD;
+[xUnit.net 00:00:08.88]       ---- System.Net.Sockets.SocketException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente.&#xD;
+[xUnit.net 00:00:08.88]       Stack Trace:&#xD;
+[xUnit.net 00:00:08.88]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)&#xD;
+[xUnit.net 00:00:08.89]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)&#xD;
+[xUnit.net 00:00:08.89]         C:\Projetos\wedding-planner-api\Tests\Tests.cs(120,0): at WeddingPlannerApiTests.C_Convidado_SemNome_DeveRetornar400()&#xD;
+[xUnit.net 00:00:08.89]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:08.89]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Sockets.Socket.&lt;ConnectAsync&gt;g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:08.89]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]       System.Net.Http.HttpRequestException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente. (localhost:3000)&#xD;
+[xUnit.net 00:00:12.95]       ---- System.Net.Sockets.SocketException : Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente.&#xD;
+[xUnit.net 00:00:12.95]       Stack Trace:&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)&#xD;
+[xUnit.net 00:00:12.95]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)&#xD;
+[xUnit.net 00:00:12.95]         C:\Projetos\wedding-planner-api\Tests\Tests.cs(39,0): at WeddingPlannerApiTests.A_Autenticacao_FluxoCompleto_DeveSerBemSucedido()&#xD;
+[xUnit.net 00:00:12.95]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:12.95]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Sockets.Socket.&lt;ConnectAsync&gt;g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.95]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:12.97]   Finished:    Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="DESKTOP-LOS913E" outcome="Error" timestamp="2025-11-07T23:46:26.3109341-03:00">
+        <Text>[xUnit.net 00:00:04.81]     WeddingPlannerApiTests.B_Registro_EmailDuplicado_DeveRetornar400 [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-LOS913E" outcome="Error" timestamp="2025-11-07T23:46:30.3878255-03:00">
+        <Text>[xUnit.net 00:00:08.88]     WeddingPlannerApiTests.C_Convidado_SemNome_DeveRetornar400 [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-LOS913E" outcome="Error" timestamp="2025-11-07T23:46:34.4508174-03:00">
+        <Text>[xUnit.net 00:00:12.95]     WeddingPlannerApiTests.A_Autenticacao_FluxoCompleto_DeveSerBemSucedido [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>
